@@ -1,0 +1,161 @@
+{
+  "data": {
+    "job": {
+      "id": "fixture-job-1",
+      "jobNumber": 1,
+      "title": "Salt Application Service",
+      "visits": {
+        "nodes": [
+          {
+            "id": "fixture-visit-1",
+            "title": "Salt Application",
+            "isComplete": true,
+            "completedAt": "2026-10-26T12:00:00Z",
+            "lineItems": {
+              "nodes": [
+                {
+                  "id": "fixture-work-1",
+                  "name": "Salt Application",
+                  "quantity": 1,
+                  "unitPrice": 75
+                }
+              ]
+            }
+          },
+          {
+            "id": "fixture-visit-2",
+            "title": "Salt Application",
+            "isComplete": true,
+            "completedAt": "2026-10-27T12:00:00Z",
+            "lineItems": {
+              "nodes": [
+                {
+                  "id": "fixture-work-2",
+                  "name": "Salt Application",
+                  "quantity": 1,
+                  "unitPrice": 75
+                }
+              ]
+            }
+          },
+          {
+            "id": "fixture-visit-3",
+            "title": "Salt Application",
+            "isComplete": true,
+            "completedAt": "2026-10-28T12:00:00Z",
+            "lineItems": {
+              "nodes": [
+                {
+                  "id": "fixture-work-3",
+                  "name": "Salt Application",
+                  "quantity": 1,
+                  "unitPrice": 75
+                }
+              ]
+            }
+          },
+          {
+            "id": "fixture-visit-4",
+            "title": "Salt Application",
+            "isComplete": true,
+            "completedAt": "2026-10-29T12:00:00Z",
+            "lineItems": {
+              "nodes": [
+                {
+                  "id": "fixture-work-4",
+                  "name": "Salt Application",
+                  "quantity": 1,
+                  "unitPrice": 75
+                }
+              ]
+            }
+          },
+          {
+            "id": "fixture-visit-5",
+            "title": "Salt Application",
+            "isComplete": true,
+            "completedAt": "2026-10-30T12:00:00Z",
+            "lineItems": {
+              "nodes": [
+                {
+                  "id": "fixture-work-5",
+                  "name": "Salt Application",
+                  "quantity": 1,
+                  "unitPrice": 75
+                }
+              ]
+            }
+          },
+          {
+            "id": "fixture-visit-6",
+            "title": "Salt Application",
+            "isComplete": true,
+            "completedAt": "2026-10-31T12:00:00Z",
+            "lineItems": {
+              "nodes": [
+                {
+                  "id": "fixture-work-6",
+                  "name": "Salt Application",
+                  "quantity": 1,
+                  "unitPrice": 75
+                }
+              ]
+            }
+          },
+          {
+            "id": "fixture-visit-7",
+            "title": "Salt Application",
+            "isComplete": true,
+            "completedAt": "2026-11-01T12:00:00Z",
+            "lineItems": {
+              "nodes": [
+                {
+                  "id": "fixture-work-7",
+                  "name": "Salt Application",
+                  "quantity": 1,
+                  "unitPrice": 75
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "lineItems": {
+        "nodes": [
+          {
+            "id": "fixture-jobline-1",
+            "name": "Salt Application",
+            "quantity": 1,
+            "unitPrice": 75
+          }
+        ]
+      },
+      "invoices": {
+        "nodes": [
+          {
+            "id": "fixture-invoice-1",
+            "invoiceNumber": "1",
+            "invoiceStatus": "draft",
+            "lineItems": {
+              "nodes": [
+                {
+                  "id": "fixture-invoiceline-1",
+                  "name": "Salt Application",
+                  "quantity": 6,
+                  "unitPrice": 75,
+                  "totalPrice": 450
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "timesheetEntries": {
+        "nodes": []
+      },
+      "expenses": {
+        "nodes": []
+      }
+    }
+  }
+}

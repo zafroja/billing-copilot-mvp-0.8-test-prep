@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/billing_copilot}
+    username: ${DATABASE_USER:billing_copilot}
+    password: ${DATABASE_PASSWORD:billing_copilot}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+jobber:
+  graphql-url: https://api.getjobber.com/api/graphql
+  api-version: ${JOBBER_API_VERSION:2026-05-12}
+
+  oauth:
+    client-id: ${JOBBER_CLIENT_ID:}
+    client-secret: ${JOBBER_CLIENT_SECRET:}
+    redirect-uri: ${JOBBER_REDIRECT_URI:http://localhost:8080/api/integrations/jobber/callback}
+    authorize-url: https://api.getjobber.com/api/oauth/authorize
+    token-url: https://api.getjobber.com/api/oauth/token

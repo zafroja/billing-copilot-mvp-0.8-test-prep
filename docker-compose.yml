@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: billing_copilot
+      POSTGRES_USER: billing_copilot
+      POSTGRES_PASSWORD: billing_copilot
+    ports: ["5432:5432"]
+    volumes: ["billing_copilot_pg:/var/lib/postgresql/data"]
+volumes:
+  billing_copilot_pg:

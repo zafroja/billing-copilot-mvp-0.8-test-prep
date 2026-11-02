@@ -1,0 +1,6 @@
+const BASE='http://localhost:8080';
+export async function uploadContract(file:File){const fd=new FormData();fd.append('file',file);const r=await fetch(`${BASE}/api/contracts/upload?tenantId=1`,{method:'POST',body:fd});if(!r.ok)throw new Error('Contract upload failed');return r.json();}
+export async function reviewRule(id:number,status:string){const r=await fetch(`${BASE}/api/contracts/rules/${id}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})});if(!r.ok)throw new Error('Rule review failed');return r.json();}
+export async function runAudit(contractId:number,work:any[],invoice:any[]){const r=await fetch(`${BASE}/api/audits/contracts/${contractId}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({work,invoice})});if(!r.ok)throw new Error('Audit failed');return r.json();}
+export async function getJobberStatus(){const r=await fetch(`${BASE}/api/integrations/jobber/status?tenantId=1`);if(!r.ok)throw new Error('Unable to load Jobber status');return r.json();}
+export async function startJobberConnect(){const r=await fetch(`${BASE}/api/integrations/jobber/connect?tenantId=1`);if(!r.ok)throw new Error('Unable to start Jobber connection');const x=await r.json();window.location.href=x.authorizationUrl;}
