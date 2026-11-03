@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -20,9 +21,14 @@ import java.util.List;
 public class PilotSecurityConfig {
  @Bean UserDetailsService pilotOwner(
    @Value("${pilot.username:}") String username,
-   @Value("${pilot.password-bcrypt:}") String bcryptHash) {
+   @Value("${pilot.password-bcrypt:}") String bcryptHash,
+   @Value("${pilot.password-raw:}") String rawPassword) {
+  // For managed secret stores (such as Render) a generated bootstrap password
+  // may be supplied instead of a bcrypt hash; hash it on startup in memory.
+  if(bcryptHash.isBlank() && rawPassword != null && rawPassword.length() >= 24)
+    bcryptHash = new BCryptPasswordEncoder(12).encode(rawPassword);
   if(username.isBlank() || !bcryptHash.matches("\\$2[aby]\\$[0-9]{2}\\$[./A-Za-z0-9]{53}"))
-   throw new IllegalStateException("PILOT_USERNAME and PILOT_PASSWORD_BCRYPT (bcrypt hash) are required");
+   throw new IllegalStateException("A valid PILOT_USERNAME and either PILOT_PASSWORD_BCRYPT or a 24+ character PILOT_PASSWORD_RAW are required");
   return new InMemoryUserDetailsManager(User.withUsername(username)
     .password("{bcrypt}"+bcryptHash).roles("OWNER").build());
  }
