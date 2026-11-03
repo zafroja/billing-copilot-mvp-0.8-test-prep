@@ -33,6 +33,7 @@ public class PilotSecurityConfig {
    .cors(Customizer.withDefaults())
    .authorizeHttpRequests(a -> a
      .requestMatchers(HttpMethod.GET,"/api/integrations/jobber/callback").permitAll()
+     .requestMatchers(HttpMethod.GET,"/api/health","/","/index.html","/assets/**","/favicon.ico","/robots.txt","/error").permitAll()
      .anyRequest().hasRole("OWNER"))
    .httpBasic(Customizer.withDefaults())
    .formLogin(f -> f.disable());
