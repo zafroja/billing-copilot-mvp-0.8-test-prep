@@ -29,5 +29,6 @@ app:
 pilot:
   username: ${PILOT_USERNAME:}
   password-bcrypt: ${PILOT_PASSWORD_BCRYPT:}
+  password-raw: ${PILOT_PASSWORD_RAW:}
   currency: ${PILOT_CURRENCY:EUR}
   allow-raw-demo: ${PILOT_ALLOW_RAW_DEMO:false}
