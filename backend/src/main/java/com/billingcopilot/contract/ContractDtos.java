@@ -10,5 +10,6 @@ public final class ContractDtos {
   public record ReviewableBillingRule(long id, String service, BigDecimal rate, String unit, SourceEvidence evidence, double confidence, String reviewStatus) {}
   public record SavedContract(long contractId, String fileName, List<ReviewableBillingRule> rules, List<String> warnings) {}
   public record RuleReviewRequest(String status) {}
+  public record ManualRateRequest(String service, BigDecimal rate, String unit, String source, boolean confirmed) {}
   private ContractDtos() {}
 }

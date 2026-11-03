@@ -1,4 +1,6 @@
-CREATE TABLE tenants (id UUID PRIMARY KEY, name VARCHAR(255) NOT NULL);
+-- Pilot baseline: one integer tenant shared by contracts and Jobber connections.
+CREATE TABLE tenants (id BIGINT PRIMARY KEY, name VARCHAR(255) NOT NULL);
+INSERT INTO tenants(id,name) VALUES (1,'Pilot owner');
 CREATE TABLE billing_audits (
  id UUID PRIMARY KEY, tenant_id UUID NOT NULL, external_job_id VARCHAR(255) NOT NULL,
  created_at TIMESTAMPTZ NOT NULL, potential_impact NUMERIC(19,2) NOT NULL DEFAULT 0

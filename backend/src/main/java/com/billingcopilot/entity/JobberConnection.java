@@ -7,8 +7,8 @@ public class JobberConnection {
  @Id @GeneratedValue(strategy=GenerationType.IDENTITY) private Long id;
  @Column(nullable=false) private Long tenantId;
  private String accountId; private String accountName;
- @Column(columnDefinition="text") private String accessToken;
- @Column(columnDefinition="text") private String refreshToken;
+ @Convert(converter=com.billingcopilot.security.EncryptedTokenConverter.class) @Column(columnDefinition="text") private String accessToken;
+ @Convert(converter=com.billingcopilot.security.EncryptedTokenConverter.class) @Column(columnDefinition="text") private String refreshToken;
  private Instant accessTokenExpiresAt;
  @Column(nullable=false) private boolean connected;
  private Instant createdAt=Instant.now(); private Instant updatedAt=Instant.now();

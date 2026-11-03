@@ -1,0 +1,11 @@
+PASS rejected unapproved rule: Approve a per-application contract rate before performing this fixed-price job audit
+PASS rejected unsupported billing rule: Only explicitly approved per-application or per-visit rules may be used
+PASS rejected partial pages: Incomplete visits page; refusing to audit
+PASS rejected GraphQL errors: GraphQL errors in snapshot
+PASS: 8 numeric/structural assertions and 4 fail-closed scenarios with uploaded Jobber fixture
+PASS TS syntax main.tsx
+PASS TS syntax api/client.ts
+PASS TS syntax components/JobberCard.tsx
+PASS TS syntax components/Sidebar.tsx
+PASS TS syntax components/StatCard.tsx
+PASS TS syntax types/index.ts

@@ -118,7 +118,11 @@
               ]
             }
           }
-        ]
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
       },
       "lineItems": {
         "nodes": [
@@ -148,14 +152,19 @@
               ]
             }
           }
-        ]
+        ],
+        "pageInfo": {
+          "hasNextPage": false,
+          "endCursor": null
+        }
       },
       "timesheetEntries": {
         "nodes": []
       },
       "expenses": {
         "nodes": []
-      }
+      },
+      "billingType": "PER_VISIT"
     }
   }
 }

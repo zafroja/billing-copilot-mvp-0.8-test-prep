@@ -11,6 +11,6 @@ public class ContractBillingRule {
  @Column(name="created_at",insertable=false,updatable=false) private OffsetDateTime createdAt;
  protected ContractBillingRule(){}
  public ContractBillingRule(Long contractId,String service,BigDecimal rate,String unit,Integer page,String quote,Double confidence){this.contractDocumentId=contractId;this.service=service;this.rate=rate;this.unit=unit;this.sourcePage=page;this.sourceQuote=quote;this.confidence=confidence;}
- public void review(String status){this.reviewStatus=status;this.humanVerified=!"PENDING".equals(status);}
+ public void review(String status){this.reviewStatus=status;this.humanVerified="APPROVED".equals(status);}
  public Long getId(){return id;} public Long getContractDocumentId(){return contractDocumentId;} public String getService(){return service;} public BigDecimal getRate(){return rate;} public String getUnit(){return unit;} public Integer getSourcePage(){return sourcePage;} public String getSourceQuote(){return sourceQuote;} public Double getConfidence(){return confidence;} public String getReviewStatus(){return reviewStatus;}
 }

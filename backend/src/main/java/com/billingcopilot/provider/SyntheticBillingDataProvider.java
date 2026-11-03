@@ -13,7 +13,7 @@ public class SyntheticBillingDataProvider implements BillingDataProvider {
             new WorkEvidence("TIMESHEET","t1","Emergency cleanup",bd("3"),"3 approved hours")),
     List.of(new InvoiceEvidence("inv1","l1","Monthly maintenance",bd("1"),bd("1400")),
             new InvoiceEvidence("inv1","l2","Salt application",bd("6"),bd("130")),
-            new InvoiceEvidence("inv1","l3","Emergency cleanup",bd("3"),bd("150"))));
+            new InvoiceEvidence("inv1","l3","Emergency cleanup",bd("3"),bd("150"))), "PER_VISIT");
  }
  private static BigDecimal bd(String v){return new BigDecimal(v);}
 }

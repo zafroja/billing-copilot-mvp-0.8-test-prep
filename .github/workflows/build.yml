@@ -1,0 +1,58 @@
+name: Verify Billing Copilot private-pilot build
+on: [push, pull_request, workflow_dispatch]
+permissions: {contents: read}
+jobs:
+  java-offline-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: '17'}
+      - run: javac --release 17 -d out src/BillingCopilotDemo.java && java -cp out BillingCopilotDemo --test
+        working-directory: standalone-demo
+  spring-backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: billing_copilot
+          POSTGRES_USER: billing_copilot
+          POSTGRES_PASSWORD: ci-postgres-only
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U billing_copilot -d billing_copilot"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    env:
+      RUN_DB_INTEGRATION: 'true'
+      DATABASE_URL: jdbc:postgresql://localhost:5432/billing_copilot
+      DATABASE_USER: billing_copilot
+      DATABASE_PASSWORD: ci-postgres-only
+      PILOT_USERNAME: ci-owner
+      # Test-only bcrypt hash of a throwaway CI password, never use for deployment.
+      PILOT_PASSWORD_BCRYPT: '$2y$10$tVLtjNXWPuWH45ppuN41teI08BzIh7ZSDeRb0xGrH/LFufiTE9fwW'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: {distribution: temurin, java-version: '17', cache: maven}
+      - name: Compile, test and validate migrations against PostgreSQL
+        run: mvn -B -ntp verify
+        working-directory: backend
+  react-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - run: npm install --no-audit --no-fund && npm run build
+        working-directory: frontend
+  validate-compose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check production Docker Compose syntax (placeholder variables only)
+        run: |
+          export APP_DOMAIN=pilot.example.com DATABASE_PASSWORD=unused PILOT_USERNAME=owner \
+            PILOT_PASSWORD_BCRYPT=unused TOKEN_ENCRYPTION_KEY_B64=unused \
+            JOBBER_CLIENT_ID=unused JOBBER_CLIENT_SECRET=unused
+          docker compose -f docker-compose.private-pilot.yml config --quiet

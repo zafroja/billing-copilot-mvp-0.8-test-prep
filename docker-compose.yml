@@ -1,11 +1,44 @@
+# Local development containers ONLY. Public ports bind to loopback by default.
 services:
   postgres:
     image: postgres:16
     environment:
       POSTGRES_DB: billing_copilot
       POSTGRES_USER: billing_copilot
-      POSTGRES_PASSWORD: billing_copilot
-    ports: ["5432:5432"]
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:?Set DATABASE_PASSWORD}
+    ports: ["127.0.0.1:5432:5432"]
     volumes: ["billing_copilot_pg:/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U billing_copilot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  backend:
+    build: ./backend
+    environment:
+      SERVER_BIND_ADDRESS: 0.0.0.0
+      SPRING_PROFILES_ACTIVE: jobber
+      DATABASE_URL: jdbc:postgresql://postgres:5432/billing_copilot
+      DATABASE_USER: billing_copilot
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:?Set DATABASE_PASSWORD}
+      PILOT_USERNAME: ${PILOT_USERNAME:?Set PILOT_USERNAME}
+      PILOT_PASSWORD_BCRYPT: ${PILOT_PASSWORD_BCRYPT:?Set PILOT_PASSWORD_BCRYPT}
+      TOKEN_ENCRYPTION_KEY_B64: ${TOKEN_ENCRYPTION_KEY_B64:?Set TOKEN_ENCRYPTION_KEY_B64}
+      PILOT_CURRENCY: ${PILOT_CURRENCY:-EUR}
+      JOBBER_CLIENT_ID: ${JOBBER_CLIENT_ID:?Set JOBBER_CLIENT_ID}
+      JOBBER_CLIENT_SECRET: ${JOBBER_CLIENT_SECRET:?Set JOBBER_CLIENT_SECRET}
+      JOBBER_REDIRECT_URI: ${JOBBER_REDIRECT_URI:?Set JOBBER_REDIRECT_URI}
+      JOBBER_API_VERSION: ${JOBBER_API_VERSION:-2026-05-12}
+      APP_FRONTEND_ORIGIN: ${APP_FRONTEND_ORIGIN:-http://localhost:5173}
+    depends_on:
+      postgres: {condition: service_healthy}
+    ports: ["127.0.0.1:8080:8080"]
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:8080}
+    depends_on: [backend]
+    ports: ["127.0.0.1:5173:80"]
 volumes:
   billing_copilot_pg:

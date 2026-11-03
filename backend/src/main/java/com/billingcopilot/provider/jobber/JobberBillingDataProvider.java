@@ -5,7 +5,7 @@ public class JobberBillingDataProvider implements BillingDataProvider {
  private final JobberTokenService tokens; private final JobberConnectionRepository connections; private final JobberGraphQlClient gql; private final JobberSnapshotMapper mapper; private final ObjectMapper om;
  public JobberBillingDataProvider(JobberTokenService tokens,JobberConnectionRepository connections,JobberGraphQlClient gql,JobberSnapshotMapper mapper,ObjectMapper om){this.tokens=tokens;this.connections=connections;this.gql=gql;this.mapper=mapper;this.om=om;}
  @Override public ProviderSnapshot load(String externalJobId){
-  // MVP uses tenant 1 until authenticated tenant context is introduced.
+  // LOCAL-ONLY prototype: default tenant 1. Production release requires authenticated tenant ownership checks.
   Long tenantId=1L; String token=tokens.validAccessToken(tenantId); var c=connections.findByTenantId(tenantId).orElseThrow();
   try{return mapper.map(c.getAccountId(),om.readTree(gql.execute(token,JobberQueries.JOB_BILLING_SNAPSHOT,Map.of("id",externalJobId))));}catch(Exception e){throw new IllegalStateException("Unable to load Jobber billing snapshot",e);}
  }

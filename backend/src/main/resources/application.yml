@@ -1,8 +1,13 @@
+# Safe developer default: cannot expose unauthenticated MVP endpoints on a public interface.
+server:
+  address: ${SERVER_BIND_ADDRESS:127.0.0.1}
+  port: ${SERVER_PORT:8080}
+  forward-headers-strategy: framework
 spring:
   datasource:
     url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/billing_copilot}
     username: ${DATABASE_USER:billing_copilot}
-    password: ${DATABASE_PASSWORD:billing_copilot}
+    password: ${DATABASE_PASSWORD:}
   jpa:
     hibernate:
       ddl-auto: validate
@@ -18,3 +23,11 @@ jobber:
     redirect-uri: ${JOBBER_REDIRECT_URI:http://localhost:8080/api/integrations/jobber/callback}
     authorize-url: https://api.getjobber.com/api/oauth/authorize
     token-url: https://api.getjobber.com/api/oauth/token
+
+app:
+  frontend-origin: ${APP_FRONTEND_ORIGIN:http://localhost:5173}
+pilot:
+  username: ${PILOT_USERNAME:}
+  password-bcrypt: ${PILOT_PASSWORD_BCRYPT:}
+  currency: ${PILOT_CURRENCY:EUR}
+  allow-raw-demo: ${PILOT_ALLOW_RAW_DEMO:false}
