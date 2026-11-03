@@ -1,0 +1,47 @@
+# Internal test-account pilot only: not a production or multi-tenant deployment.
+# Review Render's displayed resources and pricing before applying this Blueprint.
+services:
+  - type: web
+    name: billing-copilot-test-pilot
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile.render
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      - key: SERVER_BIND_ADDRESS
+        value: 0.0.0.0
+      - key: SPRING_PROFILES_ACTIVE
+        value: jobber
+      - key: PILOT_USERNAME
+        value: owner
+      - key: PILOT_PASSWORD_BCRYPT
+        sync: false
+      - key: PILOT_CURRENCY
+        value: EUR
+      - key: TOKEN_ENCRYPTION_KEY_B64
+        generateValue: true
+      - key: JOBBER_CLIENT_ID
+        sync: false
+      - key: JOBBER_CLIENT_SECRET
+        sync: false
+      - key: JOBBER_API_VERSION
+        value: 2026-05-12
+      - key: RENDER_DATABASE_URL
+        fromDatabase:
+          name: billing-copilot-test-db
+          property: connectionString
+      - key: DATABASE_USER
+        fromDatabase:
+          name: billing-copilot-test-db
+          property: user
+      - key: DATABASE_PASSWORD
+        fromDatabase:
+          name: billing-copilot-test-db
+          property: password
+      - key: JAVA_TOOL_OPTIONS
+        value: -XX:MaxRAMPercentage=65.0 -XX:MaxMetaspaceSize=128m
+databases:
+  - name: billing-copilot-test-db
+    databaseName: billing_copilot
+    plan: free
