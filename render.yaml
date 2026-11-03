@@ -15,8 +15,8 @@ services:
         value: jobber
       - key: PILOT_USERNAME
         value: owner
-      - key: PILOT_PASSWORD_BCRYPT
-        sync: false
+      - key: PILOT_PASSWORD_RAW
+        generateValue: true
       - key: PILOT_CURRENCY
         value: EUR
       - key: TOKEN_ENCRYPTION_KEY_B64
