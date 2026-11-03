@@ -46,6 +46,12 @@ jobs:
         with: {node-version: '22'}
       - run: npm install --no-audit --no-fund && npm run build
         working-directory: frontend
+  render-image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build combined Render Docker image (React + Spring Boot)
+        run: docker build --progress=plain -f Dockerfile.render -t billing-copilot-render-ci .
   validate-compose:
     runs-on: ubuntu-latest
     steps:
