@@ -24,6 +24,12 @@ class DatabaseMigrationIntegrationTest {
   assertEquals(1L, jdbc.queryForObject("SELECT count(*) FROM information_schema.tables WHERE table_name='jobber_connection'",Long.class));
   assertEquals(4L, jdbc.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success=true",Long.class));
  }
+ @Test void rendersHealthWithoutLeakingPrivateApis() throws Exception {
+  var health=mvc.perform(get("/api/health")).andReturn().getResponse();
+  assertEquals(200,health.getStatus());
+  assertTrue(health.getContentAsString().contains("\"status\":\"ok\""));
+  assertEquals(401,mvc.perform(get("/api/contracts")).andReturn().getResponse().getStatus());
+ }
  @Test void rejectsUnauthorizedAccessAndInvalidOauthState() throws Exception {
   assertEquals(401,mvc.perform(get("/api/session")).andReturn().getResponse().getStatus());
   var basic="Basic "+Base64.getEncoder().encodeToString("ci-owner:ci-test-only-unsafe-password".getBytes(StandardCharsets.UTF_8));
