@@ -1,7 +1,7 @@
 # Safe developer default: cannot expose unauthenticated MVP endpoints on a public interface.
 server:
   address: ${SERVER_BIND_ADDRESS:127.0.0.1}
-  port: ${SERVER_PORT:8080}
+  port: ${SERVER_PORT:${PORT:8080}}
   forward-headers-strategy: framework
 spring:
   datasource:
@@ -20,12 +20,12 @@ jobber:
   oauth:
     client-id: ${JOBBER_CLIENT_ID:}
     client-secret: ${JOBBER_CLIENT_SECRET:}
-    redirect-uri: ${JOBBER_REDIRECT_URI:http://localhost:8080/api/integrations/jobber/callback}
+    redirect-uri: ${JOBBER_REDIRECT_URI:${RENDER_EXTERNAL_URL:http://localhost:8080}/api/integrations/jobber/callback}
     authorize-url: https://api.getjobber.com/api/oauth/authorize
     token-url: https://api.getjobber.com/api/oauth/token
 
 app:
-  frontend-origin: ${APP_FRONTEND_ORIGIN:http://localhost:5173}
+  frontend-origin: ${APP_FRONTEND_ORIGIN:${RENDER_EXTERNAL_URL:http://localhost:5173}}
 pilot:
   username: ${PILOT_USERNAME:}
   password-bcrypt: ${PILOT_PASSWORD_BCRYPT:}
