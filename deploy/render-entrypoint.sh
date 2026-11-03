@@ -9,7 +9,7 @@ set -eu
 : "${TOKEN_ENCRYPTION_KEY_B64:?Encryption key is required}"
 : "${JOBBER_CLIENT_ID:?Jobber client ID is required}"
 : "${JOBBER_CLIENT_SECRET:?Jobber client secret is required}"
-if [ -z "${PILOT_PASSWORD_BCRYPT:-}" ] && [ -z "${PILOT_PASSWORD:-}" ]; then
+if [ -z "${PILOT_PASSWORD_BCRYPT:-}" ] && [ -z "${PILOT_PASSWORD_RAW:-}" ]; then
   echo "Set PILOT_PASSWORD (16+ characters) or PILOT_PASSWORD_BCRYPT in Render's secret settings." >&2
   exit 1
 fi
