@@ -1,0 +1,36 @@
+name: Live Render pilot smoke test
+on:
+  push:
+    paths:
+      - '.github/workflows/live-smoke.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Public health and auth boundary checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="https://billing-copilot-test-pilot.onrender.com"
+          echo "Testing Render health endpoint (free instances can cold-start)"
+          health_code=$(curl --location --silent --show-error --max-time 240 \
+            --retry 2 --retry-delay 15 --output /tmp/billing-health \
+            --write-out '%{http_code}' "$BASE/api/health")
+          echo "Health HTTP status: $health_code"
+          test "$health_code" = "200"
+          grep -Eq '"status"[[:space:]]*:[[:space:]]*"ok"' /tmp/billing-health
+          echo "Verified healthy response"
+          session_code=$(curl --silent --show-error --max-time 40 \
+            --output /dev/null --write-out '%{http_code}' "$BASE/api/session")
+          echo "Unauthenticated session HTTP status: $session_code"
+          test "$session_code" = "401"
+          echo "Verified protected session endpoint"
+          page_code=$(curl --silent --show-error --max-time 40 \
+            --output /tmp/billing-home --write-out '%{http_code}' "$BASE/")
+          echo "Homepage HTTP status: $page_code"
+          test "$page_code" = "200"
+          echo "Public smoke checks passed (does not verify Jobber OAuth or user login)"
